@@ -1,0 +1,86 @@
+body { color: #727272; font: normal 14px 'Roboto', Arial, Helvetica, sans-serif; }
+.header-max {background-color: #56943B;height: 44px;left: 0;padding: 8px 0;position: fixed;top: 0;width: 100%;z-index: 999;}
+.hd-logo, .hd-left-1 { float: left; } 
+.hd-logo {/* margin-top: -3px; */} 
+.hd-right-1 { float: right; position: relative; z-index: 1; }
+.lst-user-controls {margin-top: 2px; }
+.lst-user-controls .user-noti, .lst-user-controls .user-message, .lst-user-controls .user-profile { color: #fff; display: inline-block; position: relative; z-index: 1; margin-left: 15px; vertical-align: middle;} 
+.lst-user-controls .user-profile a { color: #fff; } 
+.lst-user-controls .user-profile a span { font-size: 12px; } 
+.lst-user-controls .user-noti { margin-left: 0; } 
+.lst-user-controls .fa-bell, .lst-user-controls .fa-comment { font-size: 18px; color: #D1EAB5;}
+.lst-user-controls a.active .fa-bell, .lst-user-controls a.active .fa-comment { color: #fff; }
+.lst-user-controls .fa-circle { -moz-border-radius: 50%; -webkit-border-radius: 50%; border-radius: 50%; border: 2px solid #56943B; color: #ef4123; font-size: 10px; position: absolute; right: -4px; top: -4px; z-index: 5; width: 12px; height: 12px; background: #ef4123;}
+.lst-user-controls .fa + .fa-circle:before {content: " "; }
+.lst-user-controls #hd-user-caret-down {display: inline-block;padding-left: 5px;}
+.lst-user-controls #hd-user-caret-down .fa-bars {font-size: 24px;color: #D1EAB5; -webkit-text-stroke: 1px #56943B; }
+.lst-user-controls #hd-user-avatar img { -moz-border-radius: 50%; -webkit-border-radius: 50%; border-radius: 50%; border: 2px solid rgba(255, 255, 255, 0.3); display: inline-block; height: 30px; margin-right: 8px; width: 30px; }
+.icon-search {margin-left: 15px;vertical-align: middle; margin-right: -5px;} 
+.icon-search .fa-search {font-size: 20px; color: #D1EAB5; -webkit-text-stroke: 1px #56943B;} 
+
+._clearfix:after {visibility: hidden; display: block; font-size: 0; content: " "; clear: both; height: 0; }
+._clearfix { display: inline-block; } 
+._clearfix { display: block; } 
+.chat-container a:hover {text-decoration: none}
+.chat-container {padding-top: 44px;}   
+
+/*TOP HEAD Chat*/
+.tophead-chat { background-color: #192b11;  position: fixed; width: 100%; top: 44px; left: 0; z-index: 998; }
+.SeeOlderMessages {background-color: #E7E7E7; border-radius: 0; outline: 0; border: 0; display: block; text-align: center; width: 100%; height: 40px; line-height: 42px; color: #599518; font-weight: bold;}
+.wp-media .avata {height: 40px; width: 40px;}
+.wp-media .avata img {width: 100%; height: 100%;} 
+.tophead-chat .iconX {position: absolute; right: 10px; top: 10px}
+.tophead-chat .iconX .fa {font-size: 24px; color: #fff;-webkit-text-stroke: 3px #192b11;} 
+
+/*Section Chat box Right*/
+.col-chat-view { }
+.chatboxcontent {font-size: 13px; color: #333333;  overflow-y:auto; overflow-x:auto;  line-height: 1.3em; padding-bottom: 55px; padding-top: 10px}
+.chatboxcontent .media { padding: 5px 10px; margin-top: 0;}
+.chatboxcontent .avata { width: 40px; height: 40px; overflow: hidden; border-radius: 50%; margin: 5px auto;}
+.chatboxcontent .avata img {width: 100%; height: 100%;}
+.wp_avata {width: 60px; text-align: center;}
+.wp_avata small {color: #94988F;  }
+.chatboxcontent .panel-body {background-color: #d3f1b2;text-align: left; display: inline-block;}
+.messages-left .media-body {text-align: left; overflow: visible; padding-right: 5px;}
+.messages-right .media-body {text-align: right;overflow: visible; padding-left: 5px;}
+.text-muted {display: block; margin-top: 10px;margin-bottom: 10px;}
+.chatboxcontent .panel-body {line-height: 1.5em;padding: 12px; border-radius: 3px;font-size: 14px; position: relative;}
+.chatboxcontent .messages-right .panel-body:after {position: absolute; top: 25px; right: -6px;font: normal normal normal 16px/1 FontAwesome; content: "\f054"; color: #d3f1b2;}
+.chatboxcontent .messages-left  .panel-body:after {position: absolute; top: 25px; left: -6px;font: normal normal normal 16px/1 FontAwesome; content: "\f0d9"; color: #efefef;}
+.chatboxcontent .messages-left .panel-body {background-color: #efefef}
+.chatboxinput { position: fixed;bottom: 0; width: 100%; z-index: 998; -webkit-box-shadow: 0px -2px 5px 0px rgba(50, 50, 50, 0.2); -moz-box-shadow: 0px -2px 5px 0px rgba(50, 50, 50, 0.2); box-shadow: 0px -2px 5px 0px rgba(50, 50, 50, 0.2); }
+.chatboxinput .wp-reply {padding: 0;  background-color: #fff;position: relative;}
+.chatboxinput .form-control { width: 100%; resize: none; display: inline-block; vertical-align: top; outline: 0; border: 0; box-shadow: none; min-height: 50px;background-color: #fff;  color: #333; border-radius: 0; padding-top: 15px;padding-left: 20px;}
+.chatboxinput .form-control::-webkit-input-placeholder {color: #333; }
+.chatboxinput .form-control::-moz-placeholder {color: #333; }
+.chatboxinput .form-control:-ms-input-placeholder {color: #333; }
+.chatboxinput .form-control:focus {border: 0} 
+.chatboxinput .btnReply { font-size: 16px; color: #599518; position: absolute; right: 22px; bottom: 14px}
+
+/* Column List Contact Chat */
+.chat-contacts { }
+.chat-contacts li {border-color: #2e3033; } 
+.chat-contacts li > a {display: block; padding: 0 15px;}
+.chat-contacts li .contact-name {color: #333; font-weight: 500; font-size: 16px;}
+.chat-contacts li a small { color: #b4b4b4; }
+.chat-contacts .avata { width: 40px; height: 40px; overflow: hidden; border-radius: 50%;}
+.chat-contacts .avata img { width: 100%; height: 100%;}
+.chat-contacts .pull-left {padding-top: 15px; position: relative;}
+.chat-contacts .media {overflow: visible;}
+.chat-contacts .media-body  {border-top: 1px solid  #ececec ; padding: 15px 0; }
+.chat-contacts .media-body > div {margin-bottom: 4px;}
+.chat-contacts .media-body .time {float: right; font-size: 13px; color: #b4b4b4;  }
+.chat-contacts>li.active>a, .chat-contacts>li >a:hover {background-color: #f2f2f2;text-decoration: none;}
+.chat-contacts>li.active .media-body {border-color: #f2f2f2;}
+.chat-contacts>li.active + li .media-body {border-top-color: #fff;}
+ 
+/*CHAT CANDAIATE PAGE */    
+.chat-contacts .comp-name { font-size: 16px; margin-top: 0; color: #333; font-weight: bold;}
+.chat-contacts .job {color: #333; font-size: 12px; margin: 5px 0; display: block;}
+.jpb-name { display: block;font-weight: bold; font-size: 15px; margin-top: 5px; color: #000}
+.jpb-name:hover {color: #549435; text-decoration: none}
+.contacts-cpn .avata {width: 45px; height: 45px;border: 1px solid  #ececec; position: relative;}
+.contacts-cpn .avata img { width: 96%; height: 96%; margin: 0 auto; position: absolute; left: 0; top: 0; right: 0; bottom: 0; margin: auto;}
+.tabinfo-cpn {padding: 15px 15px 15px 15px;}
+.tabinfo-cpn h4 {font-size: 20px; color: #fff; margin: 0}
+.tabinfo-cpn h5 {font-size: 14px;color: #C0C4Be; margin-bottom: 0;}
