@@ -27,7 +27,7 @@ var config = {
 var pool = new pg.Pool(config);
 
 var onlineUser = [];
-
+console.log(123);
 var listUser = [
     new oneUser(1,'Sony','Sony Xperia XZ moi ra hom nay'),
     new oneUser(2,'Samsung','Samsung Xperia XZ moi ra hom nay'),
