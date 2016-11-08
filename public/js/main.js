@@ -1,13 +1,8 @@
 var socket = io('http://localhost:3000');
-var $this = this;
+var $this;;
+var $thisUser = [];
 
 var main = {
-    clickConnect : function () {
-        socket.emit('_connect', function(data){
-        });
-        $('#btnConnect').hide();
-    },
-
     loadPrivateChat : function (friendSocketId){
         ReactDOM.unmountComponentAtNode(document.getElementById('app-chat'));
         ReactDOM.render(
@@ -75,17 +70,23 @@ var Friend = React.createClass({
 var LayoutBodyListFriend = React.createClass({
     getInitialState(){
         $this = this;
-        return{userInfo : []};
+        return{listFriend : []};
     },
     componentDidMount() {
-        socket.on('send_user_connect', this._initialize);
+        socket.on('sv_send_userConnect', this._initUserConnect);
+        socket.on('sv_send_listFriend', this._initListFriend);
     },
-
-    _initialize(data) {
-        console.log(data);
-        this.state.userInfo.push(data);
+    _initUserConnect(data) {
+        if($thisUser.length == 0)
+        {
+            $thisUser.socketId = data.socketId;
+            $thisUser.userId = data.userId;
+            $thisUser.userName = data.userName;
+        }
+    },
+    _initListFriend(data) {
+        this.state.listFriend.push(data);
         this.setState(this.state);
-        console.log(this.state);
     },
     privateChat(friendSocketId){
         socket.on('private_chat', friendSocketId);
@@ -93,7 +94,7 @@ var LayoutBodyListFriend = React.createClass({
         main.loadPrivateChat(friendSocketId);
     },
     render(){
-        var sHtml = $this.state.userInfo.map(function(item,key){
+        var sHtml = $this.state.listFriend.map(function(item,key){
             return(
                 <li key={key}>
                     <Friend item={item} ></Friend>
@@ -102,7 +103,6 @@ var LayoutBodyListFriend = React.createClass({
         });
         return(
             <div className="chat-container">
-                <button id="btnConnect" onClick={main.clickConnect}>Connect</button>
                 <div className="data-content">
                     <ul className="chat-contacts contacts-cpn">
                         {sHtml}
@@ -118,7 +118,6 @@ var LayoutBodyListFriend = React.createClass({
  */
 var LayoutBodyPrivateChat = React.createClass({
     getInitialState() {
-        console.log($this.state);
         return {messages:[]};
     },
 
@@ -146,7 +145,6 @@ var LayoutBodyPrivateChat = React.createClass({
             messages.push(message);
             this.setState({messages});
         }
-        console.log('emit');
         socket.emit('send_message', message);
     },
 
