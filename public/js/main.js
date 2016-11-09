@@ -14,7 +14,9 @@ var main = {
         );
     },
 }
-
+/**
+ * Layout Main Chat
+ */
 var LayoutHeader = React.createClass({
     render(){
         return(
@@ -75,21 +77,24 @@ var LayoutBodyListFriend = React.createClass({
     componentDidMount() {
         socket.on('sv_send_userConnect', this._initUserConnect);
         socket.on('sv_send_listFriend', this._initListFriend);
+        socket.on('msg_socket', function(data){
+            console.log(data)
+        });
     },
     _initUserConnect(data) {
         if($thisUser.length == 0)
         {
-            $thisUser.socketId = data.socketId;
-            $thisUser.userId = data.userId;
-            $thisUser.userName = data.userName;
+            $thisUser = data;
         }
     },
     _initListFriend(data) {
+
         this.state.listFriend.push(data);
         this.setState(this.state);
+        console.log(this.state);
     },
     privateChat(friendSocketId){
-        socket.on('private_chat', friendSocketId);
+        socket.on('private_chat', $thisUser.socketId);
         ReactDOM.unmountComponentAtNode(document.getElementById('app-chat'));
         main.loadPrivateChat(friendSocketId);
     },
@@ -114,7 +119,7 @@ var LayoutBodyListFriend = React.createClass({
 });
 
 /**
- *
+ * Layout Private Chat
  */
 var LayoutBodyPrivateChat = React.createClass({
     getInitialState() {
@@ -172,7 +177,7 @@ var LayoutBodyPrivateChat = React.createClass({
                 <div className="data-content js_dynamic_height">
                     <button className="SeeOlderMessages">See Older Messages</button>
                     <MessageList messages={this.state.messages}></MessageList>
-                    <MessageForm onMessageSubmit={this.handleMessageSubmit} userName={this.state.userName} socketId={this.props.socketId}></MessageForm>
+                    <MessageForm onMessageSubmit={this.handleMessageSubmit} userName={this.state.userName} friendSocketId={this.props.friendSocketId}></MessageForm>
                 </div>
             </div>
         );
@@ -248,8 +253,8 @@ var MessageForm = React.createClass({
     handleSubmit(e){
         e.preventDefault();
         var message = {
-            userId : $this.state.userId,
-            userName : $this.state.userName,
+            userId : $thisUser.userId,
+            userName : $thisUser.userName,
             friendSocketId : this.props.friendSocketId,
             text : this.state.text
         }
@@ -276,6 +281,10 @@ var MessageForm = React.createClass({
         );
     }
 });
+
+/**
+ * Layout Login
+ */
 
 ReactDOM.render(
     <div>
