@@ -3,14 +3,18 @@
  | (c) Copyright Vu Ngo. 					                            |
  | 	All Rights Reserved.                                                |
  +----------------------------------------------------------------------+
+ | @Name: VNDB                					                        |
  | @Author: VuNgo                					                    |
+ | @Version: 1.0                					                    |
  | @Since: 2016-11                					                    |
  | @Source: gist.github.com/ducvu91/97edc2c4c0bd4156daaab5a19f8acff2    |
  | @Contact: ducvu.q7@gmail.com            					            |
+ | @Website: vungo.net                  					            |
  | @facebook: https://www.facebook.com/duc.vu.1690        			    |
  | @Description	: Library help Defined data that is retrieved from      |
  | database, prepare some methods from base object                      |
  | prepare some methods from base object                                |
+ | if you get it on your site, please indicate the source               |
  +----------------------------------------------------------------------+
  */
 
@@ -25,8 +29,11 @@ var config = {
 };
 var pool = new pg.Pool(config);
 //Declare init
-var init = {
+var initConfig = {
 
+    //
+    pathLog : '/public/logs/sql.log',
+    //use cofirm when delete or update all record
     confirm : false,
 
     oResult : [],
@@ -35,12 +42,15 @@ var init = {
         var oResult = {};
         oResult.total = result.rowCount;
         oResult.result = result.rows;
-        init.oResult = oResult;
+        initConfig.oResult = oResult;
         return 1;
     },
 }
 
 function sqlQuery(sql){
+
+    _writeLogQuery(sql);
+
     pool.connect(function(err, client, done){
         if(err){
             done();
@@ -48,11 +58,12 @@ function sqlQuery(sql){
         }else{
             client.query(sql, function(err, result){
                 done();
-                return init.callback(err, result);
+                return initConfig.callback(err, result);
             });
         }
     });
 }
+
 
 /**
  *
@@ -87,8 +98,10 @@ function sqlSelect(arrTable,cb){
     sLimit      = _parseLimit(arrTable);
 
     var sql = `SELECT ${sSelect} FROM ${sFrom} ${sWhere} ${sGroupBy} ${sHaving} ${sOrderBy} ${sLimit}`;
+
     console.log(sql);
-    return sqlQuery(sql);
+
+    //return sqlQuery(sql);
 }
 
 /**
@@ -158,14 +171,14 @@ function sqlUpdate(table,arrData,sWhere,cb){
         return;
     }
     else if (typeof sWhere == 'undefined'){
-        if(!init.confirm)
+        if(!initConfig.confirm)
         {
             console.log('---- WARNING : You need confirm to update all record ---');
             return;
         }
     }
     else if (typeof sWhere !== 'undefined' && sWhere.trim() === ''){
-        if(init.confirm)
+        if(initConfig.confirm)
         {
             sWhere = `'1'`;
         }
@@ -204,14 +217,14 @@ function sqlDelete(table,sWhere,cb){
         return;
     }
     else if(typeof sWhere === 'undefined'){
-        if(!init.confirm)
+        if(!initConfig.confirm)
         {
             console.log('---- WARNING : You need confirm to delete all record ---');
             return;
         }
     }
     else if (typeof sWhere !== 'undefined' && sWhere.trim() === ''){
-        if(init.confirm)
+        if(initConfig.confirm)
         {
             sWhere = `'1'`;
         }
@@ -223,6 +236,75 @@ function sqlDelete(table,sWhere,cb){
 
     var sql = `DELETE FROM "${table}" WHERE ${sWhere}`;
     console.log(sql);
+}
+
+function _writeLogQuery(data){
+
+
+    var path = __dirname + initConfig.pathLog;
+
+    _checkSizeLog(path);
+
+    var fs = require('fs');
+    var util = require('util');
+    var log_file = fs.createWriteStream(path, {flags : 'a'});
+    var log_stdout = process.stdout;
+    var today = _getCurrentDate();
+
+    var log = '';
+    log += `${today.year}-${today.month}-${today.day}T${today.hour}:${today.minute}:${today.seconds} | ${today.timeZone}` + '\n';
+    log += `${data}`+ '\n';
+    log += `________________________________________________________________________________________` + '\n';
+
+    log_file.write(util.format(log) + '\n');
+
+    /*+
+
+    console.log = function(d) { //
+        log_file.write(util.format(d) + '\n');
+        log_stdout.write(util.format(d) + '\n');
+
+    };
+    */
+}
+
+function _checkSizeLog(path){
+
+    var fs = require('fs');
+    try {
+        fs.accessSync(path, fs.F_OK);
+    } catch (e) {
+        return;
+    }
+
+    var stats = fs.statSync(path);
+    var fileSizeInBytes = stats["size"];
+
+    var maxSize = 50 * 1048576; //50 MB;
+
+    if (fileSizeInBytes > maxSize)
+    {
+        var fileName = path.replace(/^.*[\\\/]/, '').split('.');
+        var arrPath = path.split(path.replace(/^.*[\\\/]/, '')).shift();
+        var today = _getCurrentDate();
+        var currentDay = `${today.year}-${today.month}-${today.day}`;
+        var pathRename = `${arrPath}${fileName[0]}-${currentDay}.${fileName[1]}`;
+        fs.rename(path, pathRename);
+    }
+}
+
+function _getCurrentDate(){
+    d = new Date();
+    utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+    objToday = new Date(utc + (3600000*7));
+    var curDay = objToday.getDay(),
+        curMonth = objToday.getMonth(),
+        curYear = objToday.getFullYear(),
+        curHour = objToday.getHours() > 12 ? objToday.getHours() - 12 : (objToday.getHours() < 10 ? "0" + objToday.getHours() : objToday.getHours()),
+        curMinute = objToday.getMinutes() < 10 ? "0" + objToday.getMinutes() : objToday.getMinutes(),
+        curSeconds = objToday.getSeconds() < 10 ? "0" + objToday.getSeconds() : objToday.getSeconds();
+    var timeZone = new Date().toString().match(/([A-Z]+[\+-][0-9]+)/)[1];
+    return {year : curYear , month : curMonth, day : curDay, hour : curHour , minute : curMinute, seconds : curSeconds, timeZone : timeZone  };
 }
 
 function _parseColumns(arrTable){
@@ -305,16 +387,141 @@ function _parseLimit(arrTable){
 
     return '';
 }
+/**
+ +----------------------------------------------------------------------+
+ |                            HOW TO USE  					            |
+ +----------------------------------------------------------------------+
+ */
+
+/**
+ **************
+ ****DELETE****
+ **************
+ *
+ **BASIC SQL AND function sqlDelete **
+ *
+ * DELETE FROM "table_name" WHERE condition
+ * sqlDelete("table_name",condition,cb);
+ *
+ * How to use ?
+ *
+ * DELETE FROM "user" WHERE "id" = 1
+ * sqlDelete("user", '"id" = 2');
+ *
+ *** with cb is callback, you can add more action and control it
+ *
+ * sqlDelete("user", '"id" = 2', function(err, result){
+ *  // To secure data or advoid err synx tax, with delete no condition, you can set confirm is true
+ *  initConfig.confirm = true;
+ *  console.log(123);
+ * });
+ *
+ */
+
+
+
+/**
+ **************
+ ****INSERT****
+ **************
+ *
+ **BASIC SQL AND function sqlInsert **
+ *
+ * INSERT INTO table_name (column_name) VALUES (values)
+ * sqlInsert(table_name, {column_name:values,column_name:values,....},cb);
+ *
+ * How to use ?
+ *
+ * INSERT INTO "user" ("username","password","mstatus") VALUES ('vungo','123456','hon qua troi dep')
+ * sqlInsert('user', {username : 'vungo', password : '123456', 'mstatus' : 'hon qua troi dep'});
+ *
+ * with cb used as  sqlDelete
+ *
+ */
+
+
+
+/**
+ **************
+ ****UPDATE****
+ **************
+ *
+ **BASIC SQL AND function sqlUpdate **
+ *
+ * UPDATE table_name set table_name = new_value WHERE condition
+ * sqlUpdate(table_name, {column_name:new_values,column_name:new_values,....}, condition, cb);
+ *
+ * How to use ?
+ *
+ * UPDATE "user" set "password" = '45678', "mStatus" = 'ok' WHERE "id" = 2
+ * sqlUpdate('user', {password : '123456', mStatus : 'ok'}, '"id" = 2');
+ *
+ * with cb used as  sqlDelete
+ *
+ */
+
+/**
+ **************
+ ****SELECT****
+ **************
+ *
+ **BASIC SQL**
+ *
+ * SELECT field FROM table WHERE condition GROUP BY group HAVING having ORDER BY order LIMIT  num ,start
+ * sqlSelect({
+ *              table : table || { a : table_a, b : table_b},
+ *              condition : {} // only have when table more 2
+ *              field : 'field',
+ *              where : 'where',
+ *              groupby : 'group',
+ *              orderby : 'order',
+ *              having : 'having',
+ *              limit : 'num,start'
+ *              });
+ *
+ ** VNDB with function sqlInsert **
+ *
+ * SELECT "id", "username"  as "name" FROM "user" WHERE "id" = 2 GROUP BY "id" ORDER BY "id" desc LIMIT  10,0
+ *
+ * sqlSelect({
+ *              table : `user`,
+ *              field : `"id", "username" as "name"`,
+ *              where : `"id" = 2`,
+ *              groupby : `"id"`,
+ *              orderby : `"id"`,
+ *              });
+ * if not have elements, you can blank.
+ * with the table, if you have more table, you must bu put it in { a:talbe_a, abc : table_abc, anything : table_anything}
+ * AND you must declare condition with it is conditional connection 2 table condition : { b : a.id = b.id}
+ * Example :
+ *
+ * SELECT a.id, a.username as name, b.id as id_order, b.amount, c.name as city_name
+ * FROM "user" as "a" INNER JOIN "order" as "b" ON (a.id = b.id_user) INNER JOIN "city" as "c" ON (a.id_city = c.id) INNER JOIN "district" as "d" ON (c.id = d.id_city)
+ * WHERE a.id = 2 ORDER BY a.id desc, a.id asc LIMIT 3 OFFSET 0
+ *
+ * sqlSelect({
+ *          table : {a : 'user', b : 'order', c : 'city', d : 'district' },
+ *          condition : {b : 'a.id = b.id_user', c : 'a.id_city = c.id', d : 'c.id = d.id_city'},
+ *          field : `a.id, a.username as name, b.id as id_order, b.amount, c.name as city_name`,
+ *          where : 'a.id = 2',
+ *          orderby : 'a.id desc, a.id asc',
+ *          limit : '3,0'
+ * });
+ * with cb used as  sqlDelete
+ *
+ */
+
+
+
 
 //sqlUpdate('user', {username : 'ducvu', password : '123456', 'mstatus' : 'hon qua troi cung dep'}, 'id = 2');
 //sqlInsert('user', {username : 'ducvu123', password : '123456', 'mstatus' : 'hon qua troi cung dep'});
 //sqlDelete('user','id = 2');
 var select = sqlSelect(
     {
-        //table : { a : 'user',b : 'user', c : 'user'},
-        table : 'user',
-        //condition : {b : 'a.id = b.id', c : 'a.id = c.id'},
-        field: 'a.*, a.id as id_abc',
+        table : {a : 'user', b : 'order', c : 'city', d : 'district' },
+        condition : {b : 'a.id = b.id_user', c : 'a.id_city = c.id', d : 'c.id = d.id_city'},
+        field : `a.id, a.username as name, b.id as id_order, b.amount, c.name as city_name`,
         where : 'a.id = 2',
         orderby : 'a.id desc, a.id asc',
         limit : '3,0'
