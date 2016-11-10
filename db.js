@@ -513,10 +513,10 @@ function _parseLimit(arrTable){
 
 
 
-
-//sqlUpdate('user', {username : 'ducvu', password : '123456', 'mstatus' : 'hon qua troi cung dep'}, 'id = 2');
-//sqlInsert('user', {username : 'ducvu123', password : '123456', 'mstatus' : 'hon qua troi cung dep'});
-//sqlDelete('user','id = 2');
+/*
+sqlInsert('user', {username : 'ducvu123', password : '123456', 'mstatus' : 'hon qua troi cung dep'});
+sqlUpdate('user', {username : 'ducvu', password : '123456', 'mstatus' : 'hon qua troi cung dep'}, 'id = 2');
+sqlDelete('user','id = 2');
 var select = sqlSelect(
     {
         table : {a : 'user', b : 'order', c : 'city', d : 'district' },
@@ -526,3 +526,4 @@ var select = sqlSelect(
         orderby : 'a.id desc, a.id asc',
         limit : '3,0'
     });
+*/
