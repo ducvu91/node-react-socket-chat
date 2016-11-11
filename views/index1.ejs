@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>Tidy Login</title>
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,400italic,500,500italic,700,700italic|Montserrat:400,700&subset=latin,vietnamese' rel='stylesheet' type='text/css'>
+    <!-- <link rel="stylesheet" href="/css/lib/bootstrap-responsive.min.css"> -->
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="socket.io/socket.io.js"></script>
+    <script src="/js/jquery.min.js"></script>
+</head>
+
+<body>
+<div id="fb-root"></div>
+
+<div class="apollo">
+    <div class="apollo-container clearfix">
+        <div class="apollo-facebook">
+            <div class="apollo-image"></div>
+        </div>
+
+        <div class="apollo-register">
+            <form class="form-signin" id="apollo-register-form" method="post" action="">
+                <div class="form-group">
+                    <input type="text" value="" id="registerEmail" class="form-control email" placeholder="Email" required/>
+                </div>
+
+                <div class="form-group">
+                    <input type="password" value="" class="form-control" placeholder="Password" required/>
+                </div>
+
+                <div class="form-group">
+                    <input type="password" value="" class="form-control" placeholder="Xác nhận password" required/>
+                </div>
+
+
+                <p class="apollo-seperator"> Thông tin về bạn </p>
+
+                <div class="form-group">
+                    <input type="text" value="" class="form-control" id="firstName" placeholder="Họ và tên" required/>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" value="" class="form-control" id="lastName" placeholder="Số điện thoại" required/>
+                </div>
+
+
+                <button class="btn btn-lg btn-block btn-primary" type="submit">đăng ký</button>
+            </form>
+
+            <p class="apollo-back"> <a href="#"><i class="icon-arrow-left"></i> Quay về trang đăng nhập</a> </p>
+        </div>
+
+        <div class="apollo-login">
+            <button class="btn btn-block btn-facebook btn-lg">đăng nhập bằng <strong>Facebook</strong></button>
+
+            <p class="apollo-seperator"> or </p>
+
+            <form class="form-signin" id="apollo-login-form" method="post" action="/login">
+                <div class="form-group">
+                    <input type="text" name="username" value="" class="form-control email" placeholder="Username"/>
+                </div>
+
+                <div class="form-group">
+                    <input type="password" name="password" value="" class="form-control" placeholder="Password"/>
+                </div>
+
+                <button class="btn btn-lg btn-signin btn-block" type="submit">đăng nhập</button>
+            </form>
+
+            <p class="apollo-register-account">
+                <a href="#" class="register-link">Chưa có tài khoản? <strong>đăng ký ngay </strong><i class="icon-arrow-right"></i></a><br/>
+                <a href="#" class="password-link"><small>Quên mật khẩu?</small></a>
+            </p>
+        </div>
+
+        <div class="apollo-forgotten-password">
+            <form class="form-signin" id="apollo-forgotten-password-form">
+                <div class="form-group">
+                    <input type="text" value="" class="form-control email" placeholder="Email address"/>
+                </div>
+                <button class="btn btn-lg btn-block btn-primary" type="submit">Reset password</button>
+            </form>
+
+            <p class="apollo-back"> <a href="#"><i class="icon-arrow-left"></i> back to login</a> </p>
+        </div>
+
+        <div class="apollo-logging-in">
+            <h2>Welcome back<span class="user-name"></span>!</h2>
+            <p><strong>Please wait whilst we securely log you in&hellip;</strong></p>
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus dignissim enim suscipit massa ornare rutrum.</p>
+        </div>
+
+        <div class="apollo-registering">
+            <h2>Thanks<span class="user-name"></span>!</h2>
+            <p><strong>We've sent you an activation email, blah blah...</strong></p>
+            <p>Nullam ac erat nunc. Donec in orci purus, vel tempor tortor. Integer tincidunt ipsum sed ipsum scelerisque malesuada.</p>
+        </div>
+
+        <div class="apollo-password-reset">
+            <h2>Check your email</h2>
+            <p><strong>We've sent you a link, blah blah...</strong></p>
+            <p>Nullam ac erat nunc. Donec in orci purus, vel tempor tortor. Integer tincidunt ipsum sed ipsum scelerisque malesuada.</p>
+        </div>
+    </div>
+</div>
+
+
+<script src="/js/images.js"></script>
+<script src="/js/md5.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script>
+    /*
+    $('.apollo-register-account .register-link').click(function (e) {
+        e.preventDefault();
+
+        $('.apollo-login').fadeOut(350, function(){
+            $('.apollo-register').fadeIn(350, function(){
+                $('.apollo-register input:first').focus();
+            });
+            $('.apollo').addClass('register');
+        });
+    });
+
+    $('.apollo-back a').click(function (e) {
+        e.preventDefault();
+
+        $('.apollo-register:visible, .apollo-forgotten-password:visible').fadeOut(350, function(){
+            $('.apollo-login').fadeIn(350);
+            // $('.apollo').removeClass('register forgotten-password');
+        });
+    });
+
+    $('.apollo-register-account .password-link').click(function (e) {
+        e.preventDefault();
+
+        $('.apollo-login').fadeOut(350, function(){
+            $('.apollo-forgotten-password').fadeIn(350, function(){
+                $('.apollo-forgotten-password input:first').focus();
+            });
+            $('.apollo').addClass('forgotten-password');
+        });
+    });
+
+    $('#apollo-register-form').submit(function(e){
+        e.preventDefault();
+
+        app.form.handleRegister($(this));
+    });
+    */
+</script>
+</body>
+</html>

@@ -285,11 +285,236 @@ var MessageForm = React.createClass({
 /**
  * Layout Login
  */
+var $thisLayoutLogin;
+
+var LayoutLogin = React.createClass({
+    getInitialState(){
+        $thisLayoutLogin = this;
+        var body = <FormLogin formRegister={this.renderFormRegister} formForgot={this.renderFormForgot}></FormLogin>;
+        return {layout : body, errorRegister : ''};
+    },
+    componentDidMount() {
+        socket.on('sv_send_errRegister', this._errorRegister);
+    },
+
+    _errorRegister(data){
+        var htmlErr = '';
+        for(var index in data) {
+            htmlErr += '<li>' + data[index] + '</li>';
+        }
+        console.log(htmlErr);
+        var html = <ul className="error">{htmlErr}</ul>;
+
+        this.state.errorRegister = html;
+        this.setState(this.state);
+    },
+    handleFormRegisterSubmit(formData){
+        console.log(formData);
+        socket.emit('client_register',formData);
+    },
+    handleFormLoginSubmit(formData){
+        console.log(formData);
+        socket.emit('client_send_login',formData);
+    },
+
+    renderFormLogin(){
+        var body = <FormLogin onLoginSubmit={this.handleFormLoginSubmit} formRegister={this.renderFormRegister} formForgot={this.renderFormForgot}></FormLogin>;
+        this.state.layout = body;
+        this.setState(this.state);
+    },
+    renderFormRegister(){
+        var body = <FormRegister onRegisterSubmit={this.handleFormRegisterSubmit}  formLogin={this.renderFormLogin}></FormRegister>;
+        this.state.layout = body;
+        this.setState(this.state);
+    },
+    renderFormForgot(){
+        var body = <FormForgot formLogin={this.renderFormLogin}></FormForgot>;
+        this.state.layout = body;
+        this.setState(this.state);
+    },
+    render(){
+        return(
+            <div className="apollo">
+                <div className="apollo-container clearfix">
+                    <div className="apollo-facebook">
+                        <div className="apollo-image"></div>
+                    </div>
+                    <div id="error-container">{this.state.errorRegister}</div>
+                    <div id="login-container">{this.state.layout}</div>
+                </div>
+            </div>
+        );
+    },
+});
+
+var FormLogin = React.createClass({
+
+    handelSubmit(e){
+        e.preventDefault();
+        var data = {
+            email : this.refs.email.value,
+            password : this.refs.password.value,
+        }
+        this.props.onLoginSubmit(data);
+    },
+
+    render(){
+        return(
+            <div className="apollo-login">
+                <button className="btn btn-block btn-facebook btn-lg">đăng nhập bằng <strong>Facebook</strong></button>
+
+                <p className="apollo-seperator"> or </p>
+
+                <div id="error-container"></div>
+
+                <form onSubmit={this.handelSubmit} className="form-signin" id="apollo-login-form" method="post" action="/login">
+                    <div className="form-group">
+                        <input ref="email" type="text" name="email" defaultValue="" className="form-control email" placeholder="Email"/>
+                    </div>
+
+                    <div className="form-group">
+                        <input ref="password" type="password" name="password" defaultValue="" className="form-control" placeholder="Password"/>
+                    </div>
+
+                    <button className="btn btn-lg btn-signin btn-block" type="submit">đăng nhập</button>
+                </form>
+
+                <p className="apollo-register-account">
+                    <a onClick={this.props.formRegister} href="javascript:void(0)" className="register-link">Chưa có tài khoản? <strong>đăng ký ngay </strong><i className="icon-arrow-right"></i></a><br/>
+                    <a onClick={this.props.formForgot} href="javascript:void(0)" className="password-link"><small>Quên mật khẩu?</small></a>
+                </p>
+            </div>
+        );
+    }
+});
+
+
+var FormRegister = React.createClass({
+    handleSubmit(e){
+        e.preventDefault();
+        var data = {
+            email       : this.refs.reg_email.value,
+            password    : this.refs.reg_password.value,
+            repassword  : this.refs.reg_repassword.value,
+            full_name : this.refs.reg_fullname.value,
+            phone : this.refs.reg_phone.value,
+        }
+        this.props.onRegisterSubmit(data);
+    },
+    render(){
+        return(
+            <div className="apollo-register">
+                <button className="btn btn-block btn-facebook btn-lg">đăng nhập bằng <strong>Facebook</strong></button>
+
+                <p className="apollo-seperator"> or </p>
+
+                <form onSubmit={this.handleSubmit} className="form-signin" id="apollo-register-form" method="post" action="">
+                    <div className="form-group">
+                        <input ref="reg_email" type="text" defaultValue="" id="reg_email" className="form-control email" placeholder="Email" required/>
+                    </div>
+
+                    <div className="form-group">
+                        <input ref="reg_password" id="reg_password" type="password" defaultValue="" className="form-control" placeholder="Password" required/>
+                    </div>
+
+                    <div className="form-group">
+                        <input ref="reg_repassword" id="reg_repassword" type="password" defaultValue="" className="form-control" placeholder="Xác nhận password" required/>
+                    </div>
+
+
+                    <p className="apollo-seperator"> Thông tin về bạn </p>
+
+                    <div className="form-group">
+                        <input ref="reg_fullname"  type="text" defaultValue="" className="form-control" id="reg_fullname" placeholder="Họ và tên" required/>
+                    </div>
+
+                    <div className="form-group">
+                        <input ref="reg_phone" type="text" defaultValue="" className="form-control" id="reg_phone" placeholder="Số điện thoại" required/>
+                    </div>
+
+
+                    <button className="btn btn-lg btn-block btn-primary" type="submit">đăng ký</button>
+                </form>
+
+                <p className="apollo-back">
+                    <a onClick={this.props.formLogin} href="javascript:void(0)" ><i className="icon-arrow-left"></i> Quay về trang đăng nhập</a>
+                </p>
+            </div>
+        );
+    }
+});
+
+
+var FormForgot = React.createClass({
+    render(){
+        return(
+            <div className="apollo-forgotten-password">
+                <button className="btn btn-block btn-facebook btn-lg">đăng nhập bằng <strong>Facebook</strong></button>
+
+                <p className="apollo-seperator"> or </p>
+
+                <div id="error-container"></div>
+
+                <form className="form-signin" id="apollo-forgotten-password-form">
+                    <div className="form-group">
+                        <input type="text" defaultValue="" className="form-control email" placeholder="Email address"/>
+                    </div>
+                    <button className="btn btn-lg btn-block btn-primary" type="submit">Reset password</button>
+                </form>
+
+                <p className="apollo-back">
+                    <a onClick={this.props.formLogin} href="javascript:void(0)"><i className="icon-arrow-left"></i> back to login</a>
+                </p>
+            </div>
+
+        );
+    }
+});
+
+
+function setOrPush(target, val) {
+    var result = val;
+    if (target) {
+        result = [target];
+        result.push(val);
+    }
+    return result;
+}
+
+function getFormResults(formElement) {
+    var formElements = formElement.elements;
+    var formParams = {};
+    var i = 0;
+    var elem = null;
+    for (i = 0; i < formElements.length; i += 1) {
+        elem = formElements[i];
+        switch (elem.type) {
+            case 'submit':
+                break;
+            case 'radio':
+                if (elem.checked) {
+                    formParams[elem.name] = elem.value;
+                }
+                break;
+            case 'checkbox':
+                if (elem.checked) {
+                    formParams[elem.name] = setOrPush(formParams[elem.name], elem.value);
+                }
+                break;
+            default:
+                formParams[elem.name] = setOrPush(formParams[elem.name], elem.value);
+        }
+    }
+    return formParams;
+}
 
 ReactDOM.render(
     <div>
         <LayoutHeader></LayoutHeader>
-        <LayoutBodyListFriend></LayoutBodyListFriend>
+
+        <div id="app-body">
+            <LayoutLogin></LayoutLogin>
+        </div>
     </div>,
-    document.getElementById('app-chat')
+    document.getElementById('app-vn-chat')
 );

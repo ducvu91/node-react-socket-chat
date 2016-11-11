@@ -1,189 +1,118 @@
-2016-10-4T1:50:45 | GMT+0700
-SELECT a.*, a.id as id_abc FROM "user" as "a" WHERE a.id = 2   ORDER BY a.id desc, a.id asc LIMIT 3 OFFSET 0
+2016-10-6T00:42:45 | GMT+0700 | STATUS : Succeed
+undefined
 ________________________________________________________________________________________
 
-2016-10-4T1:51:01 | GMT+0700
-SELECT a.*, a.id as id_abc FROM "user" as "a" WHERE a.id = 2   ORDER BY a.id desc, a.id asc LIMIT 3 OFFSET 0
+2016-10-6T00:45:28 | GMT+0700 | STATUS : Failed
+INSERT INTO "user" ("email","password","full_name","phone","key_active","key_login") VALUES ('123123123@123.com','U2FsdGVkX1+znmwepuKjlmbQUmyVoZIXRctl98Menfs=','123455646456','1231234511','U2FsdGVkX19wItSjWAC+Q44AE3dOGQo3Qw8eMlf0WFQ=','U2FsdGVkX19r/UbsrF2r44cLDhb79cc+xxDQpmY5mxV/pRHP97TLmdus/ctr7xKboWOFmXc4ci87hbvTsyuUchG3Vx8WwdIGrWVWSpnPzLA=')
 ________________________________________________________________________________________
 
-2016-10-4T1:51:57 | GMT+0700
-SELECT a.*, a.id as id_abc
-    FROM "user" as "a"
-    WHERE a.id = 2
-    
-    
-    ORDER BY a.id desc, a.id asc
-    LIMIT 3 OFFSET 0
+2016-10-6T00:47:27 | GMT+0700 | STATUS : Failed
+--- ERROR : column "phone" of relation "user" does not exist ---
+INSERT INTO "user" ("email","password","full_name","phone","key_active","key_login") VALUES ('123123123@123.com','U2FsdGVkX19YW+6VTsBDfD8V+CqTFenu3PKvMMaCG/0=','123455646456','1231234511','U2FsdGVkX18267pUSSaDcvK4zAmogRrDOg/CrY/ZHxU=','U2FsdGVkX181TVPlY+vAJ/dQf+i0PcGPoqfEl5+RIEe9v/jbj2ryuSOv3m6NWSmziFF9aw9Jobt2lqyCSJ8mS38IGtljNhXx33o3SVkTp1M=')
 ________________________________________________________________________________________
 
-2016-10-4T1:52:13 | GMT+0700
-
-    SELECT a.*, a.id as id_abc
-    FROM "user" as "a"
-    WHERE a.id = 2
-    
-    
-    ORDER BY a.id desc, a.id asc
-    LIMIT 3 OFFSET 0
+2016-10-6T00:48:11 | GMT+0700 | STATUS : Failed
+--- ERROR : column "phone" of relation "user" does not exist ---
+INSERT INTO "user" ("email","password","full_name","phone","key_active","key_login") VALUES ('123123123@123.com','U2FsdGVkX1+pUCx3mJvyHS78vSSb+H3RZo6nsm/BqOE=','123455646456','1231234511','U2FsdGVkX18z5Cs4zWQFqnlyfdx+6mCLAnR1HOqKRDo=','U2FsdGVkX19LkqgfXlA5jsnx9eFZIkThB4+Vh2g+lBJ5Gg6A/7AmkD7XP3jwg5KAp4J1tpXJgwro9GMSDa2+ny9bWV2S4omEj2f7ljpTRmo=')
 ________________________________________________________________________________________
 
-2016-10-4T1:52:36 | GMT+0700
-SELECT a.*, a.id as id_abc FROM "user" as "a" WHERE a.id = 2   ORDER BY a.id desc, a.id asc LIMIT 3 OFFSET 0
+2016-10-6T00:50:19 | GMT+0700 | STATUS : Failed
+--- ERROR : null value in column "id_city" violates not-null constraint ---
+INSERT INTO "user" ("email","password","full_name","phone","key_active","key_login") VALUES ('123123123@123.com','U2FsdGVkX19GsY2lS12ZD1y03QLtlV76r6kQ085MPkI=','123455646456','1231234511','U2FsdGVkX1+cL1UMv/JKehzdArxFw8r53SwZqUQMnqw=','U2FsdGVkX19g+PFzSMvpYg/TeYLBQVn+QIsqGEgkds6YUHh/AJwmQufiGpcP3aAkydzyswff22xY/9snxNWUD69jShxSBhM8dSOuwFN1dEI=')
 ________________________________________________________________________________________
 
-2016-10-4T1:53:22 | GMT+0700
-SELECT a.*, a.id as id_abc FROM "user" as "a" WHERE a.id = 2   ORDER BY a.id desc, a.id asc LIMIT 3 OFFSET 0
+2016-10-6T00:52:02 | GMT+0700 | STATUS : Succeed
+INSERT INTO "user" ("email","password","full_name","phone","key_active","key_login") VALUES ('123123123@123.com','U2FsdGVkX19VjNB/sPKT7KuV8vUHmyzOVTuZraxnmqA=','123455646456','1231234511','U2FsdGVkX19lZPqTm7fm61hMj02CZfgwoJ5lj1XkYWU=','U2FsdGVkX19LOmohnnYqpIQ2tCRGuRimSCwqhfzed2Was9dCkK88jyQ/tl/LaDjt7rYS5linHb8ZaehMi5vRYw3FlVPK1hMl0sh4Me+CTHQ=')
 ________________________________________________________________________________________
 
-2016-10-4T2:18:07 | GMT+0700
-SELECT a.*, a.id as id_abc FROM "user" as "a" WHERE a.id = 2   ORDER BY a.id desc, a.id asc LIMIT 3 OFFSET 0
+2016-10-6T00:52:04 | GMT+0700 | STATUS : Failed
+--- ERROR : duplicate key value violates unique constraint "email duy nhat" ---
+INSERT INTO "user" ("email","password","full_name","phone","key_active","key_login") VALUES ('123123123@123.com','U2FsdGVkX1+g7xptvsJfOQA9HE1qnOhgccSYOb3ymes=','123455646456','1231234511','U2FsdGVkX1+W6p3LWgIuAavImLf2gQGoZLndHsnoPsM=','U2FsdGVkX19JxUOdmKoLZj1R86daB+TmXttrp2cEq8B3WMEF+ehnQdJdgwaONVic2P7thKRqxJVYKsiHm7k47Bdz4vS8DesjM5lasCyT3Xg=')
 ________________________________________________________________________________________
 
-2016-10-5T3:29:52 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = ducvu and "password" = 123456    
+2016-10-6T00:52:32 | GMT+0700 | STATUS : Failed
+--- ERROR : duplicate key value violates unique constraint "email duy nhat" ---
+INSERT INTO "user" ("email","password","full_name","phone","key_active","key_login") VALUES ('123123123@123.com','U2FsdGVkX1+lCDoIpBA5gZZXa2dBTaLec1BiH6nClnM=','123455646456','1231234511','U2FsdGVkX19JE3bVptPvq57OpOZxfEDN5Rh29TAOd4w=','U2FsdGVkX18szrGVZyO1Qt4whIleh4hTggTyW2WTPPaJLw02QVjGgDgTcw6aZR86NaEE26oCcgnETW5c5SC6JYrZvmxv9iY/9UZSVbKhoG0=')
 ________________________________________________________________________________________
 
-2016-10-5T3:30:53 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = ducvu and "password" = 123456    
+2016-10-6T00:52:35 | GMT+0700 | STATUS : Failed
+--- ERROR : duplicate key value violates unique constraint "email duy nhat" ---
+INSERT INTO "user" ("email","password","full_name","phone","key_active","key_login") VALUES ('123123123@123.com','U2FsdGVkX1+R1ReXnf31Y5E71dYwwvYIftA+OQJljFA=','123455646456','1231234511','U2FsdGVkX1+PtRh+vkX90rRIve3XVjzA0iEs7K19a24=','U2FsdGVkX1+s+YvYWVQZeqCpOkn8PXB1Lgs1c694yovPSe6h6xNw98qlFPkLFQJW73MdaOMcx7QzaWFJhQ7XyirIv90/LIzT+XPjBM74IX8=')
 ________________________________________________________________________________________
 
-2016-10-5T3:31:20 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = ducvu and "password" = 123456    
+2016-10-6T00:54:35 | GMT+0700 | STATUS : Succeed
+INSERT INTO "user" ("email","password","full_name","phone","key_active","key_login") VALUES ('123123123@123.com','U2FsdGVkX19o67vWZKkJAPPiLPkowS2K9EYNhnjDUrw=','123455646456','1231234511','U2FsdGVkX1/J1ABTv6ojKXcktxCbtJpe8mUg0cHVm4g=','U2FsdGVkX19eTzj8LYfHM9lAQ6fb8YiUnuNEWAWk4XCIKTvXyA1cZgLBUbuCu9/TGCYRWqzedLD5NX4ajdGjNpiI+rSikb7cI/4VxvnlqHA=')
 ________________________________________________________________________________________
 
-2016-10-5T3:31:54 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = ducvu and "password" = 123456    
+2016-10-6T01:00:02 | GMT+0700 | STATUS : Succeed
+INSERT INTO "user" ("email","password","full_name","phone","key_active","key_login") VALUES ('123123123@123.com','U2FsdGVkX1+ZnHLom4zm5CcjvpoUkoVFBxurYgGjsl8=','123455646456','1231234511','U2FsdGVkX19B0EW7y5qSAAp71eZ0hxa9Po0p3DW6brs=','U2FsdGVkX19X+mVdQs4miHk2W2ooTUstaGX3WOJWPB9WZs7GUOF45db6CJ8jrhGtkEzqfcIALB0FdtXtOXfErstETNt2Gx6RZk8EeUNAo7A=')
 ________________________________________________________________________________________
 
-2016-10-5T3:31:54 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = ducvu and "password" = 123456    
+2016-10-6T01:03:19 | GMT+0700 | STATUS : Succeed
+INSERT INTO "user" ("email","password","full_name","phone","key_active","key_login") VALUES ('1123123123@123.com','U2FsdGVkX1+ZarzdM1VWNS7LuXj1KsA9iHSs4kcvZY0=','123455646456','1231234511','U2FsdGVkX1+s5bVGbLbaOqP9MjQuj22QLii0c0fqlPk=','U2FsdGVkX1/Iiq7HyXmcHS/nBI2ce7aiDb51fInHAjK0BxIk502l0rKGP7D3x00nMEvU32mZfCXp6XpAeUy8u1ir+7MHifLQZzjovg/Allc=')
 ________________________________________________________________________________________
 
-2016-10-5T3:32:36 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = ducvu and "password" = 123456    
+2016-10-6T01:03:40 | GMT+0700 | STATUS : Succeed
+INSERT INTO "user" ("email","password","full_name","phone","key_active","key_login") VALUES ('ducvu.q7@gmail.com','U2FsdGVkX1/OrMlMUns5unJx538OJDD1kF/lMSfypOA=','123455646456','1231234511','U2FsdGVkX19r7uIcQa2+j3Lw+16otoN/k7i+OTl6bgA=','U2FsdGVkX1+8DR0BQ61QQ7x3hB8Tht7Ab4Ku8/yIumfWE+6DX36/sO97WbDhqhzD1Wlb97H/w7HDfDlWZpAgwY6pWAh2e2qWZSDCUTve+kI=')
 ________________________________________________________________________________________
 
-2016-10-5T3:33:14 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = ducvu and "password" = 123456    
+2016-10-6T01:04:05 | GMT+0700 | STATUS : Succeed
+INSERT INTO "user" ("email","password","full_name","phone","key_active","key_login") VALUES ('1ducvu.q7@gmail.com','U2FsdGVkX1+yumNnNMOtoP7GGJZrHuo7ICUUZ3nMKfI=','123455646456','1231234511','U2FsdGVkX1+WkWnurCRYWX/rPdEjyEXZg+akqrUrZ9A=','U2FsdGVkX19aIkIMLLlzrjj4yfU7mqDQsbVGncgJTcKSWFW/1Ul2sRN1VkIJQyZEaSPEcOfs4rzE8BgapTr+KrGypma9ojAOC0LI3TGmvmE=')
 ________________________________________________________________________________________
 
-2016-10-5T3:33:54 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = ducvu and "password" = 123456    
+2016-10-6T01:14:57 | GMT+0700 | STATUS : Succeed
+INSERT INTO "user" ("email","password","full_name","phone","key_active","key_login") VALUES ('1du1cvu.q7@gmail.com','U2FsdGVkX1+/jAbMRlioY/EKq+XDdInWku81w76tSpU=','123455646456','1231234511','U2FsdGVkX1+QMAeS0HkwtA6SHzH0+d6PK4SPUqpACF4=','U2FsdGVkX1/TyYNVrHHHzsukpa0OUZ6NtDwHEZsteLZvj+mOj108sGaDqo/A2pf1XBTKgbcqIJeTvUi66qUErD4pzQNUGipY7AcGaqCF4zI=')
 ________________________________________________________________________________________
 
-2016-10-5T3:34:03 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = ducvu and "password" = 123456    
+2016-10-6T02:04:19 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = '1'     
 ________________________________________________________________________________________
 
-2016-10-5T3:34:25 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = ducvu and "password" = 123    
+2016-10-6T02:06:34 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = '1'     
 ________________________________________________________________________________________
 
-2016-10-5T3:34:35 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = ducvu and "password" = 123    
+2016-10-6T02:10:54 | GMT+0700 | STATUS : Succeed
+INSERT INTO "user" ("email","password","full_name","phone","key_active","key_login") VALUES ('ducvu.q7@gmail.com','U2FsdGVkX19E6/VDMoRIPBh5Uvw7DSuZrJ2ClsfzRro=','duc vu','0932045044','U2FsdGVkX1+povuDVnX2ezKFtWc1LecQoGsM99COcKs=','U2FsdGVkX1/QLe2rsaZwuTt+QjAB/yuP6vuXBlUNqwQ2Izz00lbT0uezcDrluPnMsVrisTiGIpDxo1lW2WyBiwYVS/A2iyxffbRnGxOGNhY=')
 ________________________________________________________________________________________
 
-2016-10-5T3:35:09 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = ducvu and "password" = 123    
+2016-10-6T02:11:03 | GMT+0700 | STATUS : Succeed
+INSERT INTO "user" ("email","password","full_name","phone","key_active","key_login") VALUES ('1ducvu.q7@gmail.com','U2FsdGVkX19IqLsNWuA8JwQfXVb3TEATpHDHUeADSeU=','duc vu','0932045044','U2FsdGVkX1+zsLKzSSQ1wQTUXoon67lcpOieOuna+K0=','U2FsdGVkX1+WbbfbOHzg4oz8DWy9YBxV4Mp9yI/0vB07/qWr4xRlbTl/NNMAb4OFDKdYUrEYC7qqs8DkBV27a5EzNZfMCGe/k1apN7Nrtok=')
 ________________________________________________________________________________________
 
-2016-10-5T3:35:22 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = ducvu and "password" = 123    
+2016-10-6T02:11:20 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.co'     
 ________________________________________________________________________________________
 
-2016-10-5T3:35:42 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = ducvu and "password" = 123    
+2016-10-6T02:11:26 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.co'     
 ________________________________________________________________________________________
 
-2016-10-5T3:36:30 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = ducvu and "password" = 123    
+2016-10-6T02:11:37 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.co'     
 ________________________________________________________________________________________
 
-2016-10-5T3:36:33 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = ducvu and "password" = 123    
+2016-10-6T02:11:43 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.com'     
 ________________________________________________________________________________________
 
-2016-10-5T3:37:19 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = ducvu and "password" = 123    
+2016-10-6T02:11:50 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.com'     
 ________________________________________________________________________________________
 
-2016-10-5T3:37:53 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = ducvu and "password" = 123    
+2016-10-6T02:11:58 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.com'     
 ________________________________________________________________________________________
 
-2016-10-5T3:38:14 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = ducvu and "password" = 123    
+2016-10-6T02:12:16 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.com'     
 ________________________________________________________________________________________
 
-2016-10-5T3:38:30 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = ducvu and "password" = 123    
+2016-10-6T02:12:40 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.com'     
 ________________________________________________________________________________________
 
-2016-10-5T3:39:40 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = ducvu and "password" = 123    
-________________________________________________________________________________________
-
-2016-10-5T3:41:08 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = ducvu and "password" = 123    
-________________________________________________________________________________________
-
-2016-10-5T3:41:26 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = ducvu and "password" = 123    
-________________________________________________________________________________________
-
-2016-10-5T3:43:26 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = ducvu and "password" = 123    
-________________________________________________________________________________________
-
-2016-10-5T3:56:45 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = 'ducvu' and "password" = '123'    
-________________________________________________________________________________________
-
-2016-10-5T3:57:01 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = 'ducvu' and "password" = '123'    
-________________________________________________________________________________________
-
-2016-10-5T3:57:31 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = 'ducvu' and "password" = '123'    
-________________________________________________________________________________________
-
-2016-10-5T3:59:31 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = 'ducvu' and "password" = '123'    
-________________________________________________________________________________________
-
-2016-10-5T4:00:10 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = 'ducvu' and "password" = '123'    
-________________________________________________________________________________________
-
-2016-10-5T4:00:10 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = 'ducvu' and "password" = '123'    
-________________________________________________________________________________________
-
-2016-10-5T4:02:10 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = 'ducvu' and "password" = '123'    
-________________________________________________________________________________________
-
-2016-10-5T4:02:10 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = 'ducvu' and "password" = '123'    
-________________________________________________________________________________________
-
-2016-10-5T4:48:45 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = 'ducvu' and "password" = '123'    
-________________________________________________________________________________________
-
-2016-10-5T4:48:57 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = 'ducvu' and "password" = '123'    
-________________________________________________________________________________________
-
-2016-10-5T5:11:17 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = 'ducvu' and "password" = '1234'    
-________________________________________________________________________________________
-
-2016-10-5T5:11:55 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = 'admin' and "password" = '13123'    
-________________________________________________________________________________________
-
-2016-10-5T5:12:06 | GMT+0700
-SELECT * FROM "user" as "a" WHERE "username" = 'ducvu' and "password" = '123'    
+2016-10-6T02:13:13 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.com'     
 ________________________________________________________________________________________
 
