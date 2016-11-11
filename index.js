@@ -94,7 +94,7 @@ app.get('/clear',function(req, res){
 });
 
 //get data when user login
-app.post('/', parser, function(req, res){
+app.post('/login', parser, function(req, res){
 
     var post = req.body;
 
@@ -116,6 +116,15 @@ app.post('/', parser, function(req, res){
 
     });
 
+});
+
+app.get('/login',function(req, res){
+    res.redirect('/');
+});
+
+app.get('/logout',function(req, res){
+    req.session.destroy();
+    res.redirect('/');
 });
 
 app.get('/chat', checkAuth, function(req, res){
