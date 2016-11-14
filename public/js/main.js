@@ -1,6 +1,7 @@
 var socket = io('http://localhost:3000');
 var $this;;
-var $thisUser = [];
+var $thisChatIndex;
+var $thisUser;
 
 var main = {
     loadPrivateChat : function (friendSocketId){
@@ -8,15 +9,13 @@ var main = {
         ReactDOM.render(
             <div>
                 <LayoutHeader></LayoutHeader>
-                <LayoutBodyPrivateChat friendSocketId={friendSocketId}></LayoutBodyPrivateChat>
+                <LayoutBodyChatPrivate friendSocketId={friendSocketId}></LayoutBodyChatPrivate>
             </div>,
             document.getElementById('app-chat')
         );
     },
 }
-/**
- * Layout Main Chat
- */
+
 var LayoutHeader = React.createClass({
     render(){
         return(
@@ -49,49 +48,25 @@ var LayoutHeader = React.createClass({
     }
 });
 
-var Friend = React.createClass({
-    render(){
-        var item = this.props.item;
-        return(
-            <a href="javascript:void(0)" onClick={() => {$this.privateChat(item.socketId)}}>
-                <div className="media">
-                    <div className="pull-left">
-                        <div className="avata"><img src="images/logo-comp-beat.png" className="img-circle" /></div>
-                    </div>
-                    <div className="media-body">
-                        <h4 className="comp-name">{item.userName}</h4>
-                        <h5 className="job">Research Engineer (NLP) - Python, Java</h5>
-                        <small className="message">{item.messages} </small><span className="time">18: 00pm</span>
-                    </div>
-                </div>
-            </a>
-        );
-    }
-});
+/**
+ * Layout Main Chat
+ */
 
-var LayoutBodyListFriend = React.createClass({
+var LayoutBodyChatIndex = React.createClass({
     getInitialState(){
-        $this = this;
+
+        $thisChatIndex = this;
+
         return{listFriend : []};
     },
     componentDidMount() {
-        socket.on('sv_send_userConnect', this._initUserConnect);
-        socket.on('sv_send_listFriend', this._initListFriend);
-        socket.on('msg_socket', function(data){
-            console.log(data)
-        });
-    },
-    _initUserConnect(data) {
-        if($thisUser.length == 0)
-        {
-            $thisUser = data;
-        }
+        socket.on('sv_send_onlineUser', this._initListFriend);
     },
     _initListFriend(data) {
 
-        this.state.listFriend.push(data);
+        this.state.listFriend = data;
         this.setState(this.state);
-        console.log(this.state);
+
     },
     privateChat(friendSocketId){
         socket.on('private_chat', $thisUser.socketId);
@@ -99,18 +74,23 @@ var LayoutBodyListFriend = React.createClass({
         main.loadPrivateChat(friendSocketId);
     },
     render(){
-        var sHtml = $this.state.listFriend.map(function(item,key){
-            return(
-                <li key={key}>
-                    <Friend item={item} ></Friend>
-                </li>
-            );
+        var listFriend = this.state.listFriend.map(function(item,key){
+
+            if(item.id != $thisUser.id)
+            {
+                return(
+                    <li key={key}>
+                        <Friend item={item} ></Friend>
+                    </li>
+                );
+            }
+
         });
         return(
             <div className="chat-container">
                 <div className="data-content">
                     <ul className="chat-contacts contacts-cpn">
-                        {sHtml}
+                        {listFriend}
                     </ul>
                 </div>
             </div>
@@ -118,10 +98,31 @@ var LayoutBodyListFriend = React.createClass({
     },
 });
 
+
+var Friend = React.createClass({
+    render(){
+        var item = this.props.item;
+        return(
+            <a href="javascript:void(0)" onClick={() => {$this.privateChat(item.id)}}>
+                <div className="media">
+                    <div className="pull-left">
+                        <div className="avata"><img src="images/logo-comp-beat.png" className="img-circle" /></div>
+                    </div>
+                    <div className="media-body">
+                        <h4 className="comp-name">{item.email}</h4>
+                        <h5 className="job">Research Engineer (NLP) - Python, Java</h5>
+                        <small className="message">{item.full_name} </small><span className="time">18: 00pm</span>
+                    </div>
+                </div>
+            </a>
+        );
+    }
+});
+
 /**
  * Layout Private Chat
  */
-var LayoutBodyPrivateChat = React.createClass({
+var LayoutBodyChatPrivate = React.createClass({
     getInitialState() {
         return {messages:[]};
     },
@@ -157,7 +158,7 @@ var LayoutBodyPrivateChat = React.createClass({
         ReactDOM.render(
             <div>
                 <LayoutHeader></LayoutHeader>
-                <LayoutBodyListFriend></LayoutBodyListFriend>
+                <LayoutBodyChatIndex></LayoutBodyChatIndex>
             </div>,
             document.getElementById('app-chat')
         );
@@ -253,8 +254,8 @@ var MessageForm = React.createClass({
     handleSubmit(e){
         e.preventDefault();
         var message = {
-            userId : $thisUser.userId,
-            userName : $thisUser.userName,
+            userId : $thisUser.id,
+            userName : $thisUser.full_name,
             friendSocketId : this.props.friendSocketId,
             text : this.state.text
         }
@@ -290,11 +291,13 @@ var $thisLayoutLogin;
 var LayoutLogin = React.createClass({
     getInitialState(){
         $thisLayoutLogin = this;
-        var body = <FormLogin formRegister={this.renderFormRegister} formForgot={this.renderFormForgot}></FormLogin>;
+        var body = <FormLogin onLoginSubmit={this.handleFormLoginSubmit} formRegister={this.renderFormRegister} formForgot={this.renderFormForgot}></FormLogin>;
         return {layout : body, errorRegister : ''};
     },
     componentDidMount() {
         socket.on('sv_send_errRegister', this._errorRegister);
+        socket.on('sv_send_loginSuccess', this._loginSuccess);
+        
     },
 
     _errorRegister(data){
@@ -302,18 +305,34 @@ var LayoutLogin = React.createClass({
         for(var index in data) {
             htmlErr += '<li>' + data[index] + '</li>';
         }
-        console.log(htmlErr);
         var html = <ul className="error">{htmlErr}</ul>;
-
         this.state.errorRegister = html;
         this.setState(this.state);
     },
+    _loginSuccess(data){
+        $thisUser = data;
+        ReactDOM.render(
+            <LayoutBodyChatIndex></LayoutBodyChatIndex>
+            , document.getElementById('app-chat-body')
+        );
+        /*
+        ReactDOM.unmountComponentAtNode(document.getElementById('app-vn-chat'));
+        ReactDOM.render(
+            <div>
+                <LayoutHeader></LayoutHeader>
+
+                <div id="app-body">
+                    <LayoutBodyChatIndex></LayoutBodyChatIndex>
+                </div>
+            </div>
+            , document.getElementById('app-vn-chat')
+        );
+        */
+    },
     handleFormRegisterSubmit(formData){
-        console.log(formData);
         socket.emit('client_register',formData);
     },
     handleFormLoginSubmit(formData){
-        console.log(formData);
         socket.emit('client_send_login',formData);
     },
 
@@ -369,11 +388,11 @@ var FormLogin = React.createClass({
 
                 <form onSubmit={this.handelSubmit} className="form-signin" id="apollo-login-form" method="post" action="/login">
                     <div className="form-group">
-                        <input ref="email" type="text" name="email" defaultValue="" className="form-control email" placeholder="Email"/>
+                        <input ref="email" type="text" name="email" defaultValue="" className="form-control email" placeholder="Email" required/>
                     </div>
 
                     <div className="form-group">
-                        <input ref="password" type="password" name="password" defaultValue="" className="form-control" placeholder="Password"/>
+                        <input ref="password" type="password" name="password" defaultValue="" className="form-control" placeholder="Password" required/>
                     </div>
 
                     <button className="btn btn-lg btn-signin btn-block" type="submit">đăng nhập</button>
@@ -509,12 +528,12 @@ function getFormResults(formElement) {
 }
 
 ReactDOM.render(
-    <div>
-        <LayoutHeader></LayoutHeader>
-
-        <div id="app-body">
-            <LayoutLogin></LayoutLogin>
-        </div>
-    </div>,
-    document.getElementById('app-vn-chat')
+    <LayoutLogin></LayoutLogin>
+    ,
+    document.getElementById('app-chat-body')
+);
+ReactDOM.render(
+    <LayoutHeader></LayoutHeader>
+    ,
+    document.getElementById('app-chat-header')
 );

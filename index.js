@@ -32,12 +32,7 @@ parser = config.configBodyParser();
 
 var onlineUser = [];
 
-var listFriend = [
-    new oneFriend(1,'Sony','Sony Xperia XZ moi ra hom nay'),
-    new oneFriend(2,'Samsung','Samsung Xperia XZ moi ra hom nay'),
-    new oneFriend(3,'Apple','Apple Xperia XZ moi ra hom nay'),
-    new oneFriend(4,'Xiaomi','Xiaomi Xperia XZ moi ra hom nay'),
-];
+var listFriend = [];
 
 io.on('connection',function(socket){
 
@@ -49,20 +44,22 @@ io.on('connection',function(socket){
         if(Object.keys(err).length == 0)
         {
             delete data.repassword;
-
             var currentTime = new Date();
             data.password   = crypto.encrypt(data.password);
             data.key_active = crypto.encrypt(currentTime.getTime());
             data.key_login  = crypto.encrypt(data.password + currentTime.getTime());
             db.sqlInsert('user',data).then(function(oResult, error){
-                console.log('ok');
+
+                console.log('dang ky thanh cong');
+
             }).catch(function(error) {
                 err.reg_email = 'Email da duoc su dung';
-
+                console.log(err);
                 socket.emit('sv_send_errRegister', err);
             });
         }
         else {
+            console.log('dang ky that bai');
             console.log(err);
             socket.emit('sv_send_errRegister', err);
         }
@@ -70,6 +67,7 @@ io.on('connection',function(socket){
 
     socket.on('client_send_login', function(data){
         var err = 'Email hoac mat khau khong chinh xasc';
+
         db.sqlSelect({table:'user',where : `"email" = '${data.email}' `}).then(function(oResult, error){
             if(oResult.total === 0)
             {
@@ -80,7 +78,22 @@ io.on('connection',function(socket){
                 var result = oResult.result[0];
                 if(crypto.decrypt(result.password) === data.password)
                 {
+
+                    var userInfo = new newUserInfo(result.id, result.email, result.full_name, socket.id);
+
+
+                    onlineUser.push(userInfo);
+
+                    socket.handshake.session.userInfo = userInfo;
+
+                    socket.emit('sv_send_loginSuccess',userInfo);
+
+                    io.emit('sv_send_onlineUser',onlineUser);
+
+                    console.log('User dang online' + onlineUser);
+
                     console.log('dang nhap thanh cong');
+
                 }
                 else {
                     console.log('mat khau khong chinh xac');
@@ -121,58 +134,23 @@ io.on('connection',function(socket){
     socket.on('send_message', function(data){
         console.log(data);
     });
-
-    socket.on('disconnect', function() {
-        //var index  = onlineUser.length;
-
-        //onlineUser.splice(listFriend[index]);
-    });
     */
 
-});
+    socket.on('disconnect', function() {
 
-
-app.get('/',function(req, res){
-    if (!req.session.userInfo) {
-        res.render('index');
-    } else {
-        res.redirect('/chat');
-    }
-
-});
-
-app.get('/clear',function(req, res){
-    onlineUser = [];
-    res.send('ok');
-});
-
-//get data when user login
-app.post('/login', parser, function(req, res){
-
-    var post = req.body;
-
-    var arrQuery = {table : 'user',where : `"username" = '${post.username}' and "password" = '${post.password}'`};
-
-    db.sqlSelect(arrQuery).then(function(oResult, error){
-        if(oResult.total > 0)
+        var index  = findIndexOnlineUser(socket.id);
+        if(index)
         {
-            result = oResult.result[0];
-            req.session.userInfo = {userId : result.id, userName :result.username, userMStatus : result.mstatus };
-            res.redirect('/chat');
+            console.log(index);
+            onlineUser.splice(index);
+            io.emit('sv_send_onlineUser',onlineUser);
+            console.log('xoa list friend thanh cong');
         }
-        else {
-            res.send('Bad user/pass');
-        }
-    }).catch(function(error) {
-
-        console.log('Error occurred! ', error);
-
     });
 
 });
 
-app.get('/login',function(req, res){
-    res.redirect('/');
+app.get('/',checkAuth,function(req, res){
 });
 
 app.get('/logout',function(req, res){
@@ -180,28 +158,45 @@ app.get('/logout',function(req, res){
     res.redirect('/');
 });
 
-app.get('/chat', checkAuth, function(req, res){
-    res.send('if you are viewing this page it means you are logged in');
-    //res.render('chat');
-});
 
-function oneFriend(userId,userName,messages){
-    this.userId = userId;
-    this.userName = userName;
-    this.messages = messages;
-    
-}
-
-function infoUser(userId,userName){
-    this.userId = userId;
-    this.userName = userName;
+function newUserInfo  (id, email, full_name, socketId){
+    this.id = id;
+    this.email = email;
+    this.full_name = `${full_name}`;
+    this.socketId = socketId;
 }
 
 
-function checkAuth(req, res, next) {
+function checkAuth(req, res){
+
+    //console.log(req.session);
     if (!req.session.userInfo) {
-        res.redirect('/');
+
+        //console.log(456);
+        res.render('index');
+
     } else {
-        next();
+        res.send('123');
+        return true;
     }
+}
+
+function getUserInfo(req, res){
+    if (!req.session.userInfo) {
+        return false;
+    } else {
+        return req.session.userInfo;
+    }
+}
+
+function findIndexOnlineUser(id) {
+    var indexOf;
+    onlineUser.forEach(function(elment, index){
+        if(elment.socketId === id)
+        {
+            indexOf = index;
+        }
+
+    });
+    return indexOf;
 }
