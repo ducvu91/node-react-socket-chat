@@ -34,9 +34,20 @@ var onlineUser = [];
 
 var listFriend = [];
 
+var arrMess = [];
+
 io.on('connection',function(socket){
 
     console.log('Co nguoi ket noi : ' + socket.id);
+
+    io.emit('sv_send_onlineUser',onlineUser);
+
+    socket.on('client_request_userOnline', function(data){
+        io.emit('sv_send_onlineUser',onlineUser);
+    });
+
+
+
 
     socket.on('client_register', function(data){
 
@@ -78,19 +89,15 @@ io.on('connection',function(socket){
                 var result = oResult.result[0];
                 if(crypto.decrypt(result.password) === data.password)
                 {
+                    socket.id = result.id;
 
                     var userInfo = new newUserInfo(result.id, result.email, result.full_name, socket.id);
 
-
                     onlineUser.push(userInfo);
-
-                    socket.handshake.session.userInfo = userInfo;
 
                     socket.emit('sv_send_loginSuccess',userInfo);
 
                     io.emit('sv_send_onlineUser',onlineUser);
-
-                    console.log('User dang online' + onlineUser);
 
                     console.log('dang nhap thanh cong');
 
@@ -131,10 +138,14 @@ io.on('connection',function(socket){
         userName : user.userName,
         messages : user.messages
     });
-    socket.on('send_message', function(data){
-        console.log(data);
-    });
+
     */
+    socket.on('client_send_private_message', function(data){
+        arrMess.push(data);
+        io.emit('sv_send_private_message',arrMess);
+    });
+
+
 
     socket.on('disconnect', function() {
 
@@ -169,16 +180,16 @@ function newUserInfo  (id, email, full_name, socketId){
 
 function checkAuth(req, res){
 
-    //console.log(req.session);
+    console.log(req.session.userInfo);
     if (!req.session.userInfo) {
 
-        //console.log(456);
         res.render('index');
 
     } else {
-        res.send('123');
-        return true;
+        console.log(456);
+        //res.send('123');
     }
+
 }
 
 function getUserInfo(req, res){

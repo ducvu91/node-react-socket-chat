@@ -572,3 +572,179 @@ ________________________________________________________________________________
 SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.com'     
 ________________________________________________________________________________________
 
+2016-10-1T1:36:22 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T1:37:09 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T1:40:33 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T1:44:04 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T2:04:00 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T2:05:16 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T2:14:50 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T2:15:11 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = '1ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T2:17:01 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = '1ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T2:17:30 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = '1ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T2:17:36 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T2:20:36 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = '1ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T2:20:52 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T2:23:18 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T2:24:17 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T2:24:28 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T2:24:57 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T2:26:29 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T2:27:07 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T2:28:17 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = '1ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T2:28:24 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T2:34:53 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T2:34:58 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = '1ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T2:39:44 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T2:45:32 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = '1ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T2:58:12 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T2:58:17 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = '1ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T3:02:36 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = '1ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T3:02:44 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T3:04:08 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T3:04:30 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T3:05:30 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T3:06:22 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = '1ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T3:06:28 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T3:06:39 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T3:06:58 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = '1ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T3:07:04 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T3:40:40 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T3:41:02 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T3:41:16 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = '1ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T3:50:05 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = '1ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T3:53:01 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = '1ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T3:53:10 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+
+2016-10-1T3:55:57 | GMT+0700 | STATUS : Succeed
+SELECT * FROM "user" as "a" WHERE "email" = 'ducvu.q7@gmail.com'     
+________________________________________________________________________________________
+

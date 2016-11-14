@@ -1,17 +1,12 @@
 var socket = io('http://localhost:3000');
 var $this;;
-var $thisChatIndex;
 var $thisUser;
 
 var main = {
     loadPrivateChat : function (friendSocketId){
-        ReactDOM.unmountComponentAtNode(document.getElementById('app-chat'));
         ReactDOM.render(
-            <div>
-                <LayoutHeader></LayoutHeader>
                 <LayoutBodyChatPrivate friendSocketId={friendSocketId}></LayoutBodyChatPrivate>
-            </div>,
-            document.getElementById('app-chat')
+                , document.getElementById('app-chat-body')
         );
     },
 }
@@ -55,22 +50,23 @@ var LayoutHeader = React.createClass({
 var LayoutBodyChatIndex = React.createClass({
     getInitialState(){
 
-        $thisChatIndex = this;
+        $this = this;
 
         return{listFriend : []};
     },
     componentDidMount() {
+        socket.emit('client_request_userOnline');
         socket.on('sv_send_onlineUser', this._initListFriend);
     },
     _initListFriend(data) {
 
+        console.log(data);
         this.state.listFriend = data;
         this.setState(this.state);
 
     },
     privateChat(friendSocketId){
         socket.on('private_chat', $thisUser.socketId);
-        ReactDOM.unmountComponentAtNode(document.getElementById('app-chat'));
         main.loadPrivateChat(friendSocketId);
     },
     render(){
@@ -128,39 +124,29 @@ var LayoutBodyChatPrivate = React.createClass({
     },
 
     componentDidMount() {
-        socket.on('init', this._initialize);
-        socket.on('send_message', this._messageRecieve);
+        socket.on('init_private_chat', this._initialize);
+        socket.on('sv_send_private_message', this._messageRecieve);
     },
 
     _initialize(data) {
-        var {messages} = data;
-        this.setState({messages});
+        this.state.messages = data;
+        this.setState(this.state);
     },
 
-    _messageRecieve(message) {
-        var {messages} = this.state;
-        messages.push(message);
-        this.setState({messages});
+    _messageRecieve(data) {
+        this.state.messages = data;
+        this.setState(this.state);
+        console.log(this.state);
     },
 
     handleMessageSubmit(message) {
-
-        if(message.userId != $this.state.userId)
-        {
-            var {messages} = this.state;
-            messages.push(message);
-            this.setState({messages});
-        }
-        socket.emit('send_message', message);
+        socket.emit('client_send_private_message', message);
     },
 
     exitPrivateChat(){
         ReactDOM.render(
-            <div>
-                <LayoutHeader></LayoutHeader>
-                <LayoutBodyChatIndex></LayoutBodyChatIndex>
-            </div>,
-            document.getElementById('app-chat')
+            <LayoutBodyChatIndex></LayoutBodyChatIndex>
+            , document.getElementById('app-chat-body')
         );
     },
 
@@ -193,7 +179,7 @@ var MessageList = React.createClass({
                 {
                     this.props.messages.map((message, i) => {
                         var position;
-                        if(message.userId == $this.state.userId)
+                        if(message.userId == $thisUser.id)
                         {
                             position = 'right';
                         }
@@ -529,11 +515,9 @@ function getFormResults(formElement) {
 
 ReactDOM.render(
     <LayoutLogin></LayoutLogin>
-    ,
-    document.getElementById('app-chat-body')
+    , document.getElementById('app-chat-body')
 );
 ReactDOM.render(
     <LayoutHeader></LayoutHeader>
-    ,
-    document.getElementById('app-chat-header')
+    , document.getElementById('app-chat-header')
 );

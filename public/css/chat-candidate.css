@@ -22,7 +22,7 @@ body { color: #727272; font: normal 14px 'Roboto', Arial, Helvetica, sans-serif;
 ._clearfix { display: inline-block; } 
 ._clearfix { display: block; } 
 .chat-container a:hover {text-decoration: none}
-.chat-container {padding-top: 44px;}
+#app-chat-body {padding-top: 44px;}
 
 /**
 Login, Register, Forgot password form
