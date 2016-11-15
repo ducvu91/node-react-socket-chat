@@ -161,7 +161,63 @@ io.on('connection',function(socket){
 
 });
 
+app.get('/login',function(req, res){
+    res.render('login/index');
+});
+
+app.post('/login', parser, function(req, res){
+
+    data = req.body;
+
+    db.sqlSelect({table:'user',where : `"email" = '${data.email}' `}).then(function(oResult, error){
+
+        if(oResult.total === 0)
+        {
+            console.log('email khong ton tai');
+        }
+        else {
+            var result = oResult.result[0];
+            if(crypto.decrypt(result.password) === data.password)
+            {
+                var userInfo = new newUserInfo(result.id, result.email, result.full_name);
+
+                req.session.userInfo = userInfo;
+
+                onlineUser.push(userInfo);
+
+                console.log('dang nhap thanh cong');
+
+                res.redirect('/app');
+
+            }
+            else {
+                console.log('mat khau khong chinh xac');
+            }
+
+        }
+    }).catch(function(error) {
+        //socket.emit('sv_send_errRegister', err);
+    });
+
+    res.render('login/index');
+});
+
+app.get('/app', checkAuth, function(req, res){
+
+    res.render('app/index');
+
+})
+
+app.get('/test',function(req, res){
+    res.writeHead(302, {
+        'Location': 'your/404/path.html'
+        //add other headers here...
+    });
+    res.end();
+});
+
 app.get('/',checkAuth,function(req, res){
+
 });
 
 app.get('/logout',function(req, res){
@@ -179,15 +235,14 @@ function newUserInfo  (id, email, full_name, socketId){
 
 
 function checkAuth(req, res){
-
     console.log(req.session.userInfo);
     if (!req.session.userInfo) {
-
-        res.render('index');
+        console.log(123);
+        res.redirect('/login');
 
     } else {
         console.log(456);
-        //res.send('123');
+        return true;
     }
 
 }

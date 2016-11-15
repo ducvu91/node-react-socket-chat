@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="images/icon.ico" />
+    <link rel="stylesheet" href="css/style-bootstrap.css">
+    <link rel="stylesheet" href="css/chat-candidate.css">
+    <link rel="stylesheet" href="css/extra.css">
+    <title>Project title</title>
+    <style>
+    </style>
+</head>
+<body>
+<div class="header-max header-company">
+    <div class="container-fluid clearfix">
+        <div class="hd-logo">
+            <img src="images/logo.png" alt="">
+        </div>
+        <div class="hd-right-1">
+            <div class="lst-user-controls clearfix">
+                <a href="#" class="user-noti" id="btn-logged-notification">
+                    <i class="fa fa-bell"></i>
+                    <i class="fa fa-circle"></i>
+                </a>
+                <a href="#" class="user-message active" id="btn-logged-message">
+                    <i class="fa fa-comment"></i>
+                    <i class="fa fa-circle"></i>
+                </a>
+                <a href="#" class="icon-search"><i class="fa fa-search"></i></a>
+                <div class="user-profile clearfix">
+                    <a href="#" id="hd-user-caret-down">
+                        <i class="fa fa-bars"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!--  header-max -->
+<div id="app-chat-body">
+    <div class="apollo">
+        <div class="apollo-container clearfix">
+            <div class="apollo-facebook">
+                <div class="apollo-image"></div>
+            </div>
+            <div id="login-container">
+                <div class="apollo-login">
+                    <button class="btn btn-block btn-facebook btn-lg">
+                        <!-- react-text: 9 -->đăng nhập bằng
+                        <!-- /react-text --><strong>Facebook</strong>
+                    </button>
+                    <p class="apollo-seperator"> or </p>
+                    <form class="form-signin" id="apollo-login-form" method="post" action="/login">
+                        <div class="form-group">
+                            <input name="email" class="form-control email" placeholder="Email" required="" value="" type="text">
+                        </div>
+                        <div class="form-group">
+                            <input name="password" class="form-control" placeholder="Password" required="" value="" type="password">
+                        </div>
+                        <button class="btn btn-lg btn-signin btn-block" type="submit">đăng nhập</button>
+                    </form>
+                    <p class="apollo-register-account">
+                        <a href="javascript:void(0)" class="register-link">
+                            <!-- react-text: 21 -->Chưa có tài khoản?
+                            <!-- /react-text --><strong>đăng ký ngay </strong><i class="icon-arrow-right"></i>
+                        </a>
+                        <br><a href="javascript:void(0)" class="password-link"><small>Quên mật khẩu?</small></a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="js/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/jquery-1.10.2.min"><\/script>')</script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/init-mobile.js"></script>
+</body>
+</html>
+
