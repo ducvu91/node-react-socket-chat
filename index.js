@@ -40,11 +40,17 @@ io.on('connection',function(socket){
 
     console.log('Co nguoi ket noi : ' + socket.id);
 
+    userInfo = socket.handshake.session.userInfo;
+
+    onlineUser.push(userInfo);
+
     io.emit('sv_send_onlineUser',onlineUser);
 
     socket.on('client_request_userOnline', function(data){
         io.emit('sv_send_onlineUser',onlineUser);
     });
+
+    console.log(socket.handshake.session);
 
 
 
@@ -192,8 +198,6 @@ app.post('/login', parser, function(req, res){
 
                 $req.session.userInfo = userInfo;
 
-                onlineUser.push(userInfo);
-
                 console.log('dang nhap thanh cong');
 
                 res.redirect('/app');
@@ -213,11 +217,7 @@ app.post('/login', parser, function(req, res){
 });
 
 app.get('/app', checkAuth,function(req, res){
-    console.log(req.session.userInfo);
-    res.send(req.session.userInfo);
-
-    //res.render('app/index');
-
+    res.render('app/index');
 });
 
 app.get('/logout',function(req, res){
