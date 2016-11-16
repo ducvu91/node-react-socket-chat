@@ -41,8 +41,11 @@ io.on('connection',function(socket){
     console.log('Co nguoi ket noi : ' + socket.id);
 
     userInfo = socket.handshake.session.userInfo;
+    //userInfo.socketId = socket.id;
 
     onlineUser.push(userInfo);
+
+    socket.emit('sv_send_userInfo',userInfo);
 
     io.emit('sv_send_onlineUser',onlineUser);
 

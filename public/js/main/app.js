@@ -57,10 +57,18 @@ var LayoutBodyChatIndex = React.createClass({
     componentDidMount() {
         socket.emit('client_request_userOnline');
         socket.on('sv_send_onlineUser', this._initListFriend);
+        socket.on('sv_send_userInfo', this._initGetUserInfo);
+
     },
+
+    _initGetUserInfo(data) {
+
+        $thisUser = data;
+
+    },
+
     _initListFriend(data) {
 
-        console.log(data);
         this.state.listFriend = data;
         this.setState(this.state);
 
