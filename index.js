@@ -41,11 +41,14 @@ io.on('connection',function(socket){
     console.log('Co nguoi ket noi : ' + socket.id);
 
     userInfo = socket.handshake.session.userInfo;
-    //userInfo.socketId = socket.id;
+
+    userInfo.socketId = socket.id;
+
+    console.log(userInfo);
 
     onlineUser.push(userInfo);
 
-    socket.emit('sv_send_userInfo',userInfo);
+    socket.emit('sv_send_init',userInfo);
 
     io.emit('sv_send_onlineUser',onlineUser);
 
@@ -53,10 +56,10 @@ io.on('connection',function(socket){
         io.emit('sv_send_onlineUser',onlineUser);
     });
 
-    console.log(socket.handshake.session);
-
-
-
+    socket.on('client_change_layout', function(data){
+        userInfo.currentLayout = data.currentLayout;
+        socket.handshake.session.userInfo = userInfo;
+    });
 
     socket.on('client_register', function(data){
 
@@ -83,44 +86,6 @@ io.on('connection',function(socket){
             console.log(err);
             socket.emit('sv_send_errRegister', err);
         }
-    });
-
-    socket.on('client_send_login', function(data){
-        var err = 'Email hoac mat khau khong chinh xasc';
-
-        db.sqlSelect({table:'user',where : `"email" = '${data.email}' `}).then(function(oResult, error){
-            if(oResult.total === 0)
-            {
-                console.log('email khong ton tai');
-                socket.emit('sv_send_errLogin', err);
-            }
-            else {
-                var result = oResult.result[0];
-                if(crypto.decrypt(result.password) === data.password)
-                {
-                    socket.id = result.id;
-
-                    var userInfo = new newUserInfo(result.id, result.email, result.full_name, socket.id);
-
-                    onlineUser.push(userInfo);
-
-                    socket.emit('sv_send_loginSuccess',userInfo);
-
-                    io.emit('sv_send_onlineUser',onlineUser);
-
-                    console.log('dang nhap thanh cong');
-
-                }
-                else {
-                    console.log('mat khau khong chinh xac');
-                    socket.emit('sv_send_errLogin', err);
-                }
-
-            }
-        }).catch(function(error) {
-
-            //socket.emit('sv_send_errRegister', err);
-        });
     });
 
     /*
@@ -150,11 +115,8 @@ io.on('connection',function(socket){
 
     */
     socket.on('client_send_private_message', function(data){
-        arrMess.push(data);
-        io.emit('sv_send_private_message',arrMess);
+        io.emit('sv_send_private_message',data);
     });
-
-
 
     socket.on('disconnect', function() {
 
@@ -220,7 +182,7 @@ app.post('/login', parser, function(req, res){
 });
 
 app.get('/app', checkAuth,function(req, res){
-    res.render('app/index');
+    res.render('app/index',{userInfo : req.session.userInfo});
 });
 
 app.get('/logout',function(req, res){

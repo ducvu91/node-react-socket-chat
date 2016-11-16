@@ -2,14 +2,37 @@ var socket = io('http://localhost:3000');
 var $this;;
 var $thisUser;
 
+socket.on('sv_send_init', _initGetUserInfo);
+
+function _initGetUserInfo(data) {
+    $thisUser = data;
+    main.currentLayout = data.currentLayout;
+}
+
 var main = {
+    currentLayout : '',
     loadPrivateChat : function (friendSocketId){
         ReactDOM.render(
                 <LayoutBodyChatPrivate friendSocketId={friendSocketId}></LayoutBodyChatPrivate>
                 , document.getElementById('app-chat-body')
         );
     },
+    getComponent: function(){
+        var app;
+        switch (main.currentLayout)
+        {
+            case 'chat-private':
+                app = <LayoutBodyChatPrivate></LayoutBodyChatPrivate>;
+                break;
+            default:
+                app = <LayoutBodyChatIndex></LayoutBodyChatIndex>;
+        }
+        return app;
+
+    }
 }
+
+main.currentLayout = currentLayout;
 
 var LayoutHeader = React.createClass({
     render(){
@@ -43,27 +66,32 @@ var LayoutHeader = React.createClass({
     }
 });
 
+var $thisContainer;
+
+var Container = React.createClass({
+    getInitialState(){
+        $thisContainer = this;
+        return {component : <LayoutBodyChatIndex></LayoutBodyChatIndex>};
+    },
+    render(){
+        return(this.state.component);
+    }
+});
+
 /**
  * Layout Main Chat
  */
 
 var LayoutBodyChatIndex = React.createClass({
     getInitialState(){
-
         $this = this;
-
         return{listFriend : []};
+
     },
     componentDidMount() {
+        console.log(this.state);
         socket.emit('client_request_userOnline');
         socket.on('sv_send_onlineUser', this._initListFriend);
-        socket.on('sv_send_userInfo', this._initGetUserInfo);
-
-    },
-
-    _initGetUserInfo(data) {
-
-        $thisUser = data;
 
     },
 
@@ -74,8 +102,15 @@ var LayoutBodyChatIndex = React.createClass({
 
     },
     privateChat(friendSocketId){
-        socket.on('private_chat', $thisUser.socketId);
-        main.loadPrivateChat(friendSocketId);
+        socket.emit('client_change_layout',{currentLayout : 'chat-private'});
+        $thisContainer.state = {component : <LayoutBodyChatPrivate></LayoutBodyChatPrivate>};
+        $thisContainer.setState($thisContainer.state);
+        /*
+        ReactDOM.render(
+            <LayoutBodyChatPrivate friendSocketId={friendSocketId}></LayoutBodyChatPrivate>
+            , document.getElementById('app-chat-body')
+        );
+        */
     },
     render(){
         var listFriend = this.state.listFriend.map(function(item,key){
@@ -142,7 +177,7 @@ var LayoutBodyChatPrivate = React.createClass({
     },
 
     _messageRecieve(data) {
-        this.state.messages = data;
+        this.state.messages.push(data);
         this.setState(this.state);
         console.log(this.state);
     },
@@ -152,10 +187,9 @@ var LayoutBodyChatPrivate = React.createClass({
     },
 
     exitPrivateChat(){
-        ReactDOM.render(
-            <LayoutBodyChatIndex></LayoutBodyChatIndex>
-            , document.getElementById('app-chat-body')
-        );
+        socket.emit('client_change_layout',{currentLayout : 'chat-index'});
+        $thisContainer.state = {component : <LayoutBodyChatIndex></LayoutBodyChatIndex>};
+        $thisContainer.setState($thisContainer.state);
     },
 
     render(){
@@ -527,9 +561,15 @@ function getFormResults(formElement) {
 }
 
 ReactDOM.render(
-    <LayoutBodyChatIndex></LayoutBodyChatIndex>
+    <Container></Container>
     , document.getElementById('app-chat-body')
 );
+/*
+ReactDOM.render(
+    main.getComponent()
+    , document.getElementById('app-chat-body')
+);
+*/
 ReactDOM.render(
     <LayoutHeader></LayoutHeader>
     , document.getElementById('app-chat-header')
