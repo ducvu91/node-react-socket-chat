@@ -161,6 +161,12 @@ io.on('connection',function(socket){
 
 });
 
+
+app.get('/',function(req, res){
+    res.redirect('/app');
+});
+
+
 app.get('/login',function(req, res){
     res.render('login/index');
 });
@@ -168,6 +174,8 @@ app.get('/login',function(req, res){
 app.post('/login', parser, function(req, res){
 
     data = req.body;
+
+    var $req = req;
 
     db.sqlSelect({table:'user',where : `"email" = '${data.email}' `}).then(function(oResult, error){
 
@@ -177,46 +185,38 @@ app.post('/login', parser, function(req, res){
         }
         else {
             var result = oResult.result[0];
+
             if(crypto.decrypt(result.password) === data.password)
             {
                 var userInfo = new newUserInfo(result.id, result.email, result.full_name);
 
-                req.session.userInfo = userInfo;
+                $req.session.userInfo = userInfo;
 
                 onlineUser.push(userInfo);
 
                 console.log('dang nhap thanh cong');
 
                 res.redirect('/app');
-
             }
             else {
                 console.log('mat khau khong chinh xac');
+                res.send('mat khau khong chinh xac');
             }
 
         }
     }).catch(function(error) {
+        console.log('Loi ket noi');
+        res.send('Loi ket noi');
         //socket.emit('sv_send_errRegister', err);
     });
 
-    res.render('login/index');
 });
 
-app.get('/app', checkAuth, function(req, res){
+app.get('/app', checkAuth,function(req, res){
+    console.log(req.session.userInfo);
+    res.send(req.session.userInfo);
 
-    res.render('app/index');
-
-})
-
-app.get('/test',function(req, res){
-    res.writeHead(302, {
-        'Location': 'your/404/path.html'
-        //add other headers here...
-    });
-    res.end();
-});
-
-app.get('/',checkAuth,function(req, res){
+    //res.render('app/index');
 
 });
 
@@ -226,6 +226,31 @@ app.get('/logout',function(req, res){
 });
 
 
+
+app.get('/test',function(req, res){
+    res.writeHead(302, {
+        'Location': 'your/404/path.html'
+        //add other headers here...
+    });
+    res.end();
+});
+
+app.get('/vaorap',function(req, res){
+    console.log(req.session.DaMua);
+    if (!req.session.DaMua) {
+        res.send('Mua Ve Di');
+    }
+    else {
+        res.send('Wellcome');
+    }
+});
+
+app.get('/muave',function(req, res){
+    req.session.DaMua = true;
+    console.log(req.session.DaMua);
+    res.send('Da Mua Ve');
+});
+
 function newUserInfo  (id, email, full_name, socketId){
     this.id = id;
     this.email = email;
@@ -234,20 +259,16 @@ function newUserInfo  (id, email, full_name, socketId){
 }
 
 
-function checkAuth(req, res){
-    console.log(req.session.userInfo);
+function checkAuth (req, res, next) {
     if (!req.session.userInfo) {
-        console.log(123);
+        //res.sendStatus(401);
         res.redirect('/login');
-
     } else {
-        console.log(456);
-        return true;
+        return next();
     }
-
 }
 
-function getUserInfo(req, res){
+function getUserInfo(req, res, next){
     if (!req.session.userInfo) {
         return false;
     } else {
