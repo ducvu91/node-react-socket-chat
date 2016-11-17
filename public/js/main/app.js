@@ -17,17 +17,28 @@ var main = {
                 , document.getElementById('app-chat-body')
         );
     },
-    getComponent: function(){
-        var app;
+    getComponentCurrent: function(){
         switch (main.currentLayout)
         {
             case 'chat-private':
-                app = <LayoutBodyChatPrivate></LayoutBodyChatPrivate>;
+                $thisContainer.state = {component : <LayoutBodyChatPrivate></LayoutBodyChatPrivate>};
                 break;
             default:
-                app = <LayoutBodyChatIndex></LayoutBodyChatIndex>;
+                $thisContainer.state = {component : <LayoutBodyChatIndex></LayoutBodyChatIndex>};
         }
-        return app;
+        $thisContainer.setState($thisContainer.state);
+        /*
+         var app;
+         switch (main.currentLayout)
+         {
+         case 'chat-private':
+         app = <LayoutBodyChatPrivate></LayoutBodyChatPrivate>;
+         break;
+         default:
+         app = <LayoutBodyChatIndex></LayoutBodyChatIndex>;
+         }
+         return app;
+         */
 
     }
 }
@@ -73,6 +84,10 @@ var Container = React.createClass({
         $thisContainer = this;
         return {component : <LayoutBodyChatIndex></LayoutBodyChatIndex>};
     },
+    componentDidMount() {
+        main.getComponentCurrent();
+
+    },
     render(){
         return(this.state.component);
     }
@@ -93,6 +108,12 @@ var LayoutBodyChatIndex = React.createClass({
         socket.emit('client_request_userOnline');
         socket.on('sv_send_onlineUser', this._initListFriend);
 
+    },
+
+    componentWillUnmount () {
+        if (this.isMounted()) {
+            this.setState({listFriend: []});
+        }
     },
 
     _initListFriend(data) {
@@ -170,6 +191,11 @@ var LayoutBodyChatPrivate = React.createClass({
         socket.on('init_private_chat', this._initialize);
         socket.on('sv_send_private_message', this._messageRecieve);
     },
+    componentWillUnmount () {
+        if (this.isMounted()) {
+            this.setState({messages: []});
+        }
+    },
 
     _initialize(data) {
         this.state.messages = data;
@@ -179,7 +205,6 @@ var LayoutBodyChatPrivate = React.createClass({
     _messageRecieve(data) {
         this.state.messages.push(data);
         this.setState(this.state);
-        console.log(this.state);
     },
 
     handleMessageSubmit(message) {
