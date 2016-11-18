@@ -10,24 +10,18 @@
     <link rel="stylesheet" href="css/style-bootstrap.css">
     <link rel="stylesheet" href="css/chat-candidate.css">
     <link rel="stylesheet" href="css/extra.css">
-
-    <script src="react/react.js"></script>
-    <script src="react/react-dom.js"></script>
-    <script src="react/browser.min.js"></script>
     <script src="socket.io/socket.io.js"></script>
     <script>
-        currentLayout = '<%= userInfo.currentLayout%>';
-        console.log(currentLayout);
     </script>
-
     <title>Project title</title>
     <style>
     </style>
 </head>
 <body>
-<div id="app-chat-header"></div>
-<div id="app-chat-body"></div>
-<script type="text/babel" src="js/app/bundle.js"></script>
+<div id="root-app">
+
+</div>
+<script src="js/app/bundle.js"></script>
 <script src="js/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/jquery-1.10.2.min"><\/script>')</script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>

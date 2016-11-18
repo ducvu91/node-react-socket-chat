@@ -134,12 +134,12 @@ io.on('connection',function(socket){
 
 
 app.get('/',function(req, res){
-    res.redirect('/app');
+    res.render('layout');
 });
 
 
 app.get('/login',function(req, res){
-    res.render('login/index');
+    res.render('layout');
 });
 
 app.post('/login', parser, function(req, res){
