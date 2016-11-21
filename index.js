@@ -21,7 +21,8 @@ var common  = require('./lib/common');
 
 //run config init
 config.init();
-
+var jwt     = config.configJsonWebToken().jwt;
+var jwtKey  = config.configJsonWebToken().secretKey;
 var crypto  = config.configCrypto();
 //config run with promise
 db.usePromise = true;
@@ -137,9 +138,51 @@ app.get('/',function(req, res){
     res.render('layout');
 });
 
+app.post('/client', parser, function(req, res){
+    var post = req.body;
+    console.log(post);
+    var token = jwt.sign(
+        {
+            fullname    : post.fullname,
+            phone       : post.phone,
+            message     : post.message,
+        },
+        jwtKey,
+        {expiresIn : '1h'}
+    );
+    res.redirect('support/'+token);
+
+});
+
+app.get('/support/:token',function(req, res){
+    //var token = req.params.token || req.header['x-access-token'];
+    var token = req.params.token || req.header['x-access-token'];
+    if(token)
+    {
+        jwt.verify(token,jwtKey,function(err, decoded){
+            if(err)
+            {
+                res.send('Cuoc tro chuyen khong ton tai <a href="/client">go to chat</a>');
+            }
+            else
+            {
+                req.decoded = decoded;
+                res.render('client/support');
+            }
+        });
+    }
+    else
+    {
+        res.send('Cuoc tro chuyen khong ton tai <a href="/client">go to chat</a>');
+    }
+});
+
+app.get('/client',function(req, res){
+    res.render('client/index');
+});
 
 app.get('/login',function(req, res){
-    res.render('layout');
+    res.render('login/index');
 });
 
 app.post('/login', parser, function(req, res){
@@ -182,7 +225,7 @@ app.post('/login', parser, function(req, res){
 });
 
 app.get('/app', checkAuth,function(req, res){
-    res.render('app/index',{userInfo : req.session.userInfo});
+    res.render('layout',{userInfo : req.session.userInfo});
 });
 
 app.get('/logout',function(req, res){
